@@ -1,0 +1,30 @@
+{
+  "name": "university-grade-prediction-frontend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "mkdir -p dist && cp -R src/* dist/",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "npx tailwindcss -i ./src/css/tailwind-input.css -o ./src/css/tailwind.css --watch",
+  "start:browser-sync": "browser-sync start --server \"src\" --files \"src/**/*.js, src/**/*.css, src/**/*.html\" --port 3000 --open --no-notify",
+  "start": "concurrently \"npm run build:css\" \"npm run start:browser-sync\""
+  },
+  "keywords": [
+    "education",
+    "grade-prediction",
+    "university"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "Frontend for University Grade Prediction System",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.2",
+    "axios": "^1.6.2",
+    "chart.js": "^4.3.3",
+    "tailwindcss": "^3.4.17"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.29.3",
+    "concurrently": "^9.1.2"
+  }
+}

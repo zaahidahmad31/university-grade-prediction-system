@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learing Management System</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <link href="../css/tailwind.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="../css/main.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-semibold">Student Portal</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-700">Welcome, <span id="username" class="font-semibold"></span></span>
+                    <button id="logoutBtn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">My Profile</h2>
+            <p class="text-gray-600">Manage your personal information</p>
+        </div>
+
+        <!-- Alert Container -->
+        <div id="alertContainer"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Profile Summary Card -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="text-center">
+                        <div class="w-32 h-32 bg-gray-300 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i class="fas fa-user text-gray-600 text-5xl"></i>
+                        </div>
+                        <h3 id="profileName" class="text-xl font-semibold mb-2">Loading...</h3>
+                        <p id="profileStudentId" class="text-gray-600 mb-2"></p>
+                        <p id="profileEmail" class="text-gray-600 mb-4"></p>
+                        <span id="profileStatus" class="inline-block px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">Active</span>
+                    </div>
+                    
+                    <div class="mt-6 pt-6 border-t">
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Program:</span>
+                                <span id="profileProgram" class="font-medium">-</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Year:</span>
+                                <span id="profileYear" class="font-medium">-</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">GPA:</span>
+                                <span id="profileGPA" class="font-medium">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Edit Form -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow">
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold mb-4">Edit Profile Information</h3>
+                        
+                        <form id="profileForm" class="space-y-6">
+                            <!-- Personal Information -->
+                            <div>
+                                <h4 class="font-medium text-gray-700 mb-3">Personal Information</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">
+                                            First Name <span class="text-red-500">*</span>
+                                        </label>
+                                        <input type="text" id="firstName" name="firstName" 
+                                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                               required>
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">
+                                            Last Name <span class="text-red-500">*</span>
+                                        </label>
+                                        <input type="text" id="lastName" name="lastName"
+                                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                               required>
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                                            Email Address <span class="text-red-500">*</span>
+                                        </label>
+                                        <input type="email" id="email" name="email"
+                                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                               required>
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="dateOfBirth" class="block text-sm font-medium text-gray-700 mb-1">
+                                            Date of Birth
+                                        </label>
+                                        <input type="date" id="dateOfBirth" name="dateOfBirth"
+                                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="gender" class="block text-sm font-medium text-gray-700 mb-1">
+                                            Gender
+                                        </label>
+                                        <select id="gender" name="gender"
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="">Select Gender</option>
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Academic Information -->
+                            <div>
+                                <h4 class="font-medium text-gray-700 mb-3">Academic Information</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="programCode" class="block text-sm font-medium text-gray-700 mb-1">
+                                            Program Code
+                                        </label>
+                                        <input type="text" id="programCode" name="programCode"
+                                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                               placeholder="e.g., CS, ENG, BUS">
+                                    </div>
+                                    
+                                    <div>
+                                        <label for="yearOfStudy" class="block text-sm font-medium text-gray-700 mb-1">
+                                            Year of Study
+                                        </label>
+                                        <select id="yearOfStudy" name="yearOfStudy"
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="">Select Year</option>
+                                            <option value="1">Year 1</option>
+                                            <option value="2">Year 2</option>
+                                            <option value="3">Year 3</option>
+                                            <option value="4">Year 4</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Form Actions -->
+                            <div class="flex justify-end space-x-3 pt-4 border-t">
+                                <button type="button" id="cancelBtn"
+                                        class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                                    Cancel
+                                </button>
+                                <button type="submit" id="saveBtn"
+                                        class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.2/dist/axios.min.js"></script>
+    <script src="../js/api/client.js"></script>
+    <script src="../js/api/auth.js"></script>
+    <script src="../js/api/student.js"></script>
+    <script src="../js/utils/auth-guard.js"></script>
+    <script src="../js/utils/activity-tracker.js"></script>
+    
+    <script>
+        // Profile Management Script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize
+            loadProfile();
+            
+            // Get elements
+            const profileForm = document.getElementById('profileForm');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const usernameElement = document.getElementById('username');
+            
+            // Display username
+            const user = authApi.getCurrentUser();
+            if (user) {
+                usernameElement.textContent = user.username;
+            }
+            
+            // Form submission
+            profileForm.addEventListener('submit', handleProfileUpdate);
+            
+            // Cancel button
+            cancelBtn.addEventListener('click', function() {
+                if (confirm('Discard changes?')) {
+                    loadProfile();
+                }
+            });
+            
+            // Logout
+            logoutBtn.addEventListener('click', function() {
+                authApi.logout();
+            });
+        });
+        
+        async function loadProfile() {
+            try {
+                const response = await studentApi.getProfile();
+                
+                if (response.status === 'success') {
+                    const { user, student } = response.data;
+                    
+                    // Update profile summary
+                    document.getElementById('profileName').textContent = `${student.first_name} ${student.last_name}`;
+                    document.getElementById('profileStudentId').textContent = student.student_id;
+                    document.getElementById('profileEmail').textContent = user.email;
+                    document.getElementById('profileProgram').textContent = student.program_code || '-';
+                    document.getElementById('profileYear').textContent = student.year_of_study ? `Year ${student.year_of_study}` : '-';
+                    document.getElementById('profileGPA').textContent = student.gpa ? student.gpa.toFixed(2) : '-';
+                    
+                    // Update form fields
+                    document.getElementById('firstName').value = student.first_name || '';
+                    document.getElementById('lastName').value = student.last_name || '';
+                    document.getElementById('email').value = user.email || '';
+                    document.getElementById('dateOfBirth').value = student.date_of_birth || '';
+                    document.getElementById('gender').value = student.gender || '';
+                    document.getElementById('programCode').value = student.program_code || '';
+                    document.getElementById('yearOfStudy').value = student.year_of_study || '';
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                showAlert('Failed to load profile data', 'error');
+            }
+        }
+        
+        async function handleProfileUpdate(event) {
+            event.preventDefault();
+            
+            try {
+                // Get form values
+                const formData = {
+                    first_name: document.getElementById('firstName').value.trim(),
+                    last_name: document.getElementById('lastName').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    date_of_birth: document.getElementById('dateOfBirth').value || null,
+                    gender: document.getElementById('gender').value || null,
+                    program_code: document.getElementById('programCode').value || null,
+                    year_of_study: document.getElementById('yearOfStudy').value || null
+                };
+                
+                // Clean the data - remove empty strings
+                const cleanedData = {};
+                for (const [key, value] of Object.entries(formData)) {
+                    if (value === '' || value === undefined) {
+                        cleanedData[key] = null;
+                    } else {
+                        cleanedData[key] = value;
+                    }
+                }
+                
+                console.log('Sending profile update:', cleanedData);
+                
+                // Update profile
+                const response = await studentApi.updateProfile(cleanedData);
+                
+                if (response.status === 'success') {
+                    showAlert('Profile updated successfully!', 'success');
+                    // Reload profile to show updated data
+                    await loadProfile();
+                } else {
+                    showAlert(response.message || 'Failed to update profile', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                showAlert('Failed to update profile. Please try again.', 'error');
+            }
+        }
+        
+        function showAlert(message, type = 'info') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertClass = type === 'success' ? 'bg-green-100 text-green-700' : 
+                              type === 'error' ? 'bg-red-100 text-red-700' : 
+                              'bg-blue-100 text-blue-700';
+            
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `p-4 rounded-md mb-4 ${alertClass}`;
+            alertDiv.innerHTML = `
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium">${message}</p>
+                    </div>
+                </div>
+            `;
+            
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alertDiv);
+            
+            // Remove after 5 seconds
+            setTimeout(() => alertDiv.remove(), 5000);
+        }
+    </script>
+</body>
+</html>

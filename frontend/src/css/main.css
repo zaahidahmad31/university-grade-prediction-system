@@ -1,0 +1,19 @@
+/* Custom styles that extend Tailwind */
+@layer components {
+  .stats-card {
+    @apply border-l-4 border-blue-500;
+  }
+  
+  .prediction-card {
+    @apply border-l-4 border-green-500;
+  }
+  
+  .alert-card {
+    @apply border-l-4 border-red-500;
+  }
+}
+
+/* Use this for any styles that can't be achieved with Tailwind */
+.chart-container {
+  height: 300px;
+}

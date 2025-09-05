@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learing Management System</title>
+
+    <!-- Compiled Tailwind CSS -->
+    <link href="../css/tailwind.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="../css/main.css" rel="stylesheet">
+    
+    <style>
+    /* Active page highlighting */
+    .nav-link.active,
+    .mobile-nav-link.active {
+        background-color: #374151; /* gray-700 */
+        color: #ffffff;
+    }
+    
+    /* Smooth transitions */
+    .nav-link,
+    .mobile-nav-link {
+        transition: all 0.2s ease-in-out;
+    }
+    
+    /* Hover effects for better UX */
+    .nav-link:hover,
+    .mobile-nav-link:hover {
+        transform: translateY(-1px);
+    }
+    
+    /* Dropdown styles */
+    .dropdown-enter {
+        animation: dropdownEnter 0.2s ease-out;
+    }
+    
+    @keyframes dropdownEnter {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen">
+        <!-- Navigation -->
+        <nav class="bg-gray-800 text-white shadow-lg sticky top-0 z-50">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-between items-center py-4">
+                    <!-- Logo/Brand -->
+                    <div class="flex items-center">
+                        <a href="dashboard.html" class="text-xl font-bold text-white hover:text-gray-200 transition-colors">
+                            <i class="fas fa-graduation-cap mr-2"></i>
+                            Student Portal
+                        </a>
+                    </div>
+                    
+                    <!-- Desktop Navigation Links -->
+                    <div class="hidden md:flex items-center space-x-1">
+                        <a href="dashboard.html" 
+                           class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 flex items-center"
+                           data-page="dashboard">
+                            <i class="fas fa-tachometer-alt mr-2"></i>
+                            Dashboard
+                        </a>
+                        <a href="courses.html" 
+                           class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 flex items-center"
+                           data-page="courses">
+                            <i class="fas fa-book mr-2"></i>
+                            My Courses
+                        </a>
+                        <a href="attendance.html" 
+                           class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 flex items-center"
+                           data-page="attendance">
+                            <i class="fas fa-calendar-check mr-2"></i>
+                            Attendance
+                        </a>
+                        <a href="assessments.html" 
+                           class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 flex items-center"
+                           data-page="assessments">
+                            <i class="fas fa-clipboard-check mr-2"></i>
+                            Assessments
+                        </a>
+                        <a href="grades.html" 
+                           class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 flex items-center"
+                           data-page="grades">
+                            <i class="fas fa-chart-line mr-2"></i>
+                            Grades
+                        </a>
+                        <a href="predictions.html" 
+                           class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 flex items-center"
+                           data-page="predictions">
+                            <i class="fas fa-crystal-ball mr-2"></i>
+                            Predictions
+                        </a>
+                    </div>
+                    
+                    <!-- User Dropdown Menu - This is where alerts will be added -->
+                    <div class="flex items-center space-x-4">
+                        <!-- Alert bell will be inserted here by alerts.js -->
+                        
+                        <!-- Desktop User Dropdown -->
+                        <div class="hidden md:block relative">
+                            <button id="userMenuBtn" 
+                                    class="flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200">
+                                <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-user text-sm text-white"></i>
+                                </div>
+                                <span id="username" class="max-w-xs truncate">Loading...</span>
+                                <i class="fas fa-chevron-down text-xs ml-1"></i>
+                            </button>
+                            
+                            <!-- Dropdown Menu -->
+                            <div id="userDropdown" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl py-1 z-50 dropdown-enter">
+                                <!-- User Info Header -->
+                                <div class="px-4 py-3 border-b border-gray-200">
+                                    <p class="text-sm font-medium text-gray-900" id="dropdownUsername">Student Name</p>
+                                </div>
+                                
+                                <!-- Menu Items -->
+                                <a href="profile.html" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                    <i class="fas fa-user-circle mr-3 text-gray-400"></i>
+                                    My Profile
+                                </a>
+                                <hr class="my-1">
+                                
+                                <button id="logoutBtn" class="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors text-left">
+                                    <i class="fas fa-sign-out-alt mr-3"></i>
+                                    Logout
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Mobile menu button -->
+                        <button id="mobileMenuBtn" 
+                                class="md:hidden p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white">
+                            <i class="fas fa-bars text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mobile Navigation Menu -->
+                <div id="mobileMenu" class="md:hidden hidden pb-4">
+                    <!-- Mobile User Info -->
+                    <div class="px-3 py-2 mb-3 border-b border-gray-700">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-white"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-white" id="mobileUsername">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mobile Navigation Links -->
+                    <div class="space-y-1">
+                        <a href="dashboard.html" 
+                           class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                           data-page="dashboard">
+                            <i class="fas fa-tachometer-alt mr-3"></i>Dashboard
+                        </a>
+                        <a href="courses.html" 
+                           class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                           data-page="courses">
+                            <i class="fas fa-book mr-3"></i>My Courses
+                        </a>
+                        <a href="attendance.html" 
+                           class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                           data-page="attendance">
+                            <i class="fas fa-calendar-check mr-3"></i>Attendance
+                        </a>
+                        <a href="assessments.html" 
+                           class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                           data-page="assessments">
+                            <i class="fas fa-clipboard-check mr-3"></i>Assessments
+                        </a>
+                        <a href="grades.html" 
+                           class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                           data-page="grades">
+                            <i class="fas fa-chart-line mr-3"></i>Grades
+                        </a>
+                        <a href="predictions.html" 
+                           class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                           data-page="predictions">
+                            <i class="fas fa-crystal-ball mr-3"></i>Predictions
+                        </a>
+                        
+                        <!-- Mobile User Menu Items -->
+                        <div class="border-t border-gray-700 pt-4 mt-4 space-y-1">
+                            <a href="profile.html" 
+                               class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
+                                <i class="fas fa-user-circle mr-3"></i>My Profile
+                            </a>
+                            <button id="mobileLogoutBtn" 
+                                    class="w-full text-left mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-red-400 hover:bg-red-900 hover:text-white transition-colors">
+                                <i class="fas fa-sign-out-alt mr-3"></i>Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <div class="container mx-auto px-4 py-6">
+            <!-- Page Header -->
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-gray-900">Grade Predictions</h1>
+                <p class="text-gray-600 mt-2">View your predicted grades and performance analysis for all enrolled courses</p>
+            </div>
+            
+            <!-- Filters Section -->
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Course</label>
+                        <select id="courseFilter" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">All Courses</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Risk Level</label>
+                        <select id="riskFilter" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">All Risk Levels</option>
+                            <option value="low">Low Risk</option>
+                            <option value="medium">Medium Risk</option>
+                            <option value="high">High Risk</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Search</label>
+                        <input type="text" id="searchInput" placeholder="Search courses..." 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div class="flex items-end space-x-2">
+                        <button id="applyBtn" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-filter mr-2"></i> Apply
+                        </button>
+                        <button id="clearBtn" class="flex-1 bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 transition-colors">
+                            <i class="fas fa-times mr-2"></i> Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Results Header -->
+            <div class="flex justify-between items-center mb-4">
+                <p id="predictionCount" class="text-gray-700"></p>
+                <div class="space-x-2">
+                    <button id="generateNewBtn" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors">
+                        <i class="fas fa-sync-alt mr-2"></i> Generate New Predictions
+                    </button>
+                    <button id="exportBtn" class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors">
+                        <i class="fas fa-download mr-2"></i> Export to CSV
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Summary Statistics -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                    <div class="text-3xl font-bold text-blue-600" id="totalCourses">0</div>
+                    <div class="text-gray-600 mt-2">Total Courses</div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                    <div class="text-3xl font-bold text-green-600" id="lowRiskCount">0</div>
+                    <div class="text-gray-600 mt-2">Low Risk</div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                    <div class="text-3xl font-bold text-yellow-600" id="mediumRiskCount">0</div>
+                    <div class="text-gray-600 mt-2">Medium Risk</div>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                    <div class="text-3xl font-bold text-red-600" id="highRiskCount">0</div>
+                    <div class="text-gray-600 mt-2">High Risk</div>
+                </div>
+            </div>
+            
+            <!-- Predictions Table -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Course
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Predicted Grade
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Risk Level
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Confidence
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Prediction Date
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="predictionsTableBody" class="bg-white divide-y divide-gray-200">
+                            <!-- Predictions will be populated here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- No Predictions Message -->
+            <div id="noPredictionsMessage" class="hidden flex flex-col items-center justify-center py-12">
+                <i class="fas fa-chart-line text-6xl text-gray-400 mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">No Predictions Available</h3>
+                <p class="text-gray-600">You don't have any grade predictions yet.</p>
+                <button id="refreshBtn" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                    <i class="fas fa-refresh mr-2"></i> Refresh Page
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prediction Details Modal -->
+    <div id="predictionModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-11/12 max-w-2xl shadow-lg rounded-md bg-white">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold text-gray-900">Prediction Details</h3>
+                <button onclick="closePredictionModal()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <div id="modalContent">
+                <!-- Course Information -->
+                <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+                    <h4 class="font-semibold text-lg mb-2">Course Information</h4>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <span class="text-gray-600">Course Code:</span>
+                            <span id="modalCourseCode" class="font-medium ml-2"></span>
+                        </div>
+                        <div>
+                            <span class="text-gray-600">Course Name:</span>
+                            <span id="modalCourseName" class="font-medium ml-2"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Prediction Results -->
+                <div class="mb-6 p-4 bg-blue-50 rounded-lg">
+                    <h4 class="font-semibold text-lg mb-2">Prediction Results</h4>
+                    <div class="grid grid-cols-3 gap-4 text-center">
+                        <div>
+                            <p class="text-gray-600 text-sm">Predicted Grade</p>
+                            <p id="modalGrade" class="text-3xl font-bold mt-1"></p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600 text-sm">Risk Level</p>
+                            <p id="modalRisk" class="text-xl font-semibold mt-1"></p>
+                        </div>
+                        <div>
+                            <p class="text-gray-600 text-sm">Confidence</p>
+                            <p id="modalConfidence" class="text-xl font-semibold mt-1"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recommendations -->
+                <div class="mb-6 p-4 bg-yellow-50 rounded-lg">
+                    <h4 class="font-semibold text-lg mb-2">
+                        <i class="fas fa-lightbulb text-yellow-600 mr-2"></i>Recommendations
+                    </h4>
+                    <ul id="modalRecommendations" class="list-disc list-inside space-y-2 text-gray-700">
+                        <!-- Recommendations will be populated here -->
+                    </ul>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex justify-end space-x-3">
+                    <button onclick="downloadPredictionReport()" class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors">
+                        <i class="fas fa-download mr-2"></i>Download Report
+                    </button>
+                    <button onclick="closePredictionModal()" class="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 transition-colors">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.2/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.3/dist/chart.umd.min.js"></script>
+    
+    <!-- Custom JavaScript - IMPORTANT: Load these in order -->
+    <script src="../js/api/client.js"></script>
+    <script src="../js/api/auth.js"></script>
+    <script src="../js/utils/auth-guard.js"></script>
+    <script src="../js/api/student.js"></script>
+    
+    <!-- Alert component - CORRECTED PATH -->
+    <script src="../js/components/alerts.js"></script>
+    
+    <!-- Predictions script -->
+    <script src="../js/student/predictions.js"></script>
+    <script src="../js/utils/activity-tracker.js"></script>
+    
+    <!-- Navigation script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elements
+        const userMenuBtn = document.getElementById('userMenuBtn');
+        const userDropdown = document.getElementById('userDropdown');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
+        
+        // User dropdown toggle
+        userMenuBtn?.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userDropdown.classList.toggle('hidden');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!userMenuBtn?.contains(event.target) && !userDropdown?.contains(event.target)) {
+                userDropdown?.classList.add('hidden');
+            }
+        });
+        
+        // Mobile menu toggle
+        mobileMenuBtn?.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+            
+            const icon = mobileMenuBtn.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        });
+        
+        // Logout functionality
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                authApi.logout();
+                window.location.href = '../login.html';
+            }
+        }
+        
+        logoutBtn?.addEventListener('click', handleLogout);
+        mobileLogoutBtn?.addEventListener('click', handleLogout);
+        
+        // Update user information
+        function updateUserInfo() {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const username = user.username || 'Student';
+            const email = user.email || 'student@university.edu';
+            
+            // Desktop
+            const usernameElement = document.getElementById('username');
+            const dropdownUsername = document.getElementById('dropdownUsername');
+            const dropdownEmail = document.getElementById('dropdownEmail');
+            
+            if (usernameElement) usernameElement.textContent = username;
+            if (dropdownUsername) dropdownUsername.textContent = username;
+            if (dropdownEmail) dropdownEmail.textContent = email;
+            
+            // Mobile
+            const mobileUsername = document.getElementById('mobileUsername');
+            const mobileEmail = document.getElementById('mobileEmail');
+            
+            if (mobileUsername) mobileUsername.textContent = username;
+            if (mobileEmail) mobileEmail.textContent = email;
+        }
+        
+        // Highlight active page
+        function setActivePage() {
+            const currentPage = window.location.pathname.split('/').pop().replace('.html', '') || 'dashboard';
+            
+            document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            document.querySelectorAll(`[data-page="${currentPage}"]`).forEach(link => {
+                link.classList.add('active');
+            });
+        }
+        
+        // Initialize
+        updateUserInfo();
+        setActivePage();
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                if (!this.id?.includes('Logout')) {
+                    mobileMenu?.classList.add('hidden');
+                    const icon = mobileMenuBtn?.querySelector('i');
+                    icon?.classList.remove('fa-times');
+                    icon?.classList.add('fa-bars');
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>

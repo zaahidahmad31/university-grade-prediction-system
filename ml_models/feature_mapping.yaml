@@ -1,0 +1,90 @@
+# configs/feature_mapping.yaml
+# Mapping between OULAD data format and production database format
+
+feature_mappings:
+  # Activity-based features
+  days_active:
+    description: "Number of unique days with any activity"
+    oulad_source: "COUNT(DISTINCT date) from studentVle"
+    production_source: "Combined attendance and LMS activity dates"
+    mapping_logic: |
+      - Each attendance record = 1 active day
+      - Each day with LMS activity = 1 active day
+      - Combine and count unique days
+    
+  total_clicks:
+    description: "Total engagement actions"
+    oulad_source: "SUM(sum_click) from studentVle"
+    production_source: "Attendance records + LMS activities"
+    mapping_logic: |
+      - Present attendance = 30 clicks
+      - Late attendance = 15 clicks
+      - Each LMS activity = 1 click
+      - Sum all clicks
+    
+  unique_materials:
+    description: "Count of unique resources accessed"
+    oulad_source: "COUNT(DISTINCT id_site) from studentVle"
+    production_source: "Unique resource_ids from LMS + attendance as resources"
+    mapping_logic: |
+      - Each unique LMS resource_id = 1 material
+      - Each attendance session = 1 unique material (attendance_X)
+      - Count distinct materials
+
+  # Assessment features
+  submitted_assessments:
+    description: "Number of assessments submitted"
+    oulad_source: "COUNT(*) from studentAssessment"
+    production_source: "COUNT(*) from assessment_submissions"
+    mapping_logic: "Direct count, no transformation needed"
+    
+  avg_score:
+    description: "Average assessment score"
+    oulad_source: "AVG(score) from studentAssessment"
+    production_source: "AVG(score) from assessment_submissions"
+    mapping_logic: "Normalize all scores to 0-100 scale"
+
+# Data transformation rules
+transformation_rules:
+  attendance_to_activity:
+    description: "Convert attendance records to VLE-style activity"
+    rules:
+      - condition: "status = 'present'"
+        action: "Create VLE record with 30 clicks"
+      - condition: "status = 'late'"
+        action: "Create VLE record with 15 clicks"
+      - condition: "status = 'absent' or 'excused'"
+        action: "No VLE record created"
+        
+  lms_to_clicks:
+    description: "Convert LMS activities to click counts"
+    rules:
+      - activity_type: "resource_view"
+        clicks: 1
+      - activity_type: "forum_post"
+        clicks: 5
+      - activity_type: "forum_reply"
+        clicks: 3
+      - activity_type: "assignment_view"
+        clicks: 2
+      - activity_type: "quiz_attempt"
+        clicks: 10
+      - activity_type: "video_watch"
+        clicks: 1
+      - activity_type: "file_download"
+        clicks: 2
+      - activity_type: "page_view"
+        clicks: 1
+
+# Validation thresholds
+validation:
+  tolerance: 0.05  # 5% tolerance for feature value differences
+  required_features:
+    - days_active
+    - total_clicks
+    - unique_materials
+    - activity_rate
+    - avg_clicks_per_active_day
+    - submitted_assessments
+    - avg_score
+    - submission_rate

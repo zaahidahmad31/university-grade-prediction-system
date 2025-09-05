@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learing Management System</title>
+    
+    <!-- Compiled Tailwind CSS -->
+    <link href="../css/tailwind.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="../css/main.css" rel="stylesheet">
+    
+    <style>
+    /* Active page highlighting */
+    .nav-link.active,
+    .mobile-nav-link.active {
+        background-color: #374151; /* gray-700 */
+        color: #ffffff;
+    }
+    
+    /* Smooth transitions */
+    .nav-link,
+    .mobile-nav-link {
+        transition: all 0.2s ease-in-out;
+    }
+    
+    /* Hover effects for better UX */
+    .nav-link:hover,
+    .mobile-nav-link:hover {
+        transform: translateY(-1px);
+    }
+    
+    /* Dropdown styles */
+    .dropdown-enter {
+        animation: dropdownEnter 0.2s ease-out;
+    }
+    
+    @keyframes dropdownEnter {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen">
+        <!-- Navigation -->
+        <nav class="bg-gray-800 text-white shadow-lg sticky top-0 z-50">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-between items-center py-4">
+                    <!-- Logo/Brand -->
+                    <div class="flex items-center">
+                        <a href="dashboard.html" class="text-xl font-bold text-white hover:text-gray-200 transition-colors">
+                            <i class="fas fa-graduation-cap mr-2"></i>
+                            Student Portal
+                        </a>
+                    </div>
+                    
+                    <!-- Desktop Navigation Links -->
+                    <div class="hidden md:flex items-center space-x-1">
+                        <a href="dashboard.html" 
+                           class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 flex items-center"
+                           data-page="dashboard">
+                            <i class="fas fa-tachometer-alt mr-2"></i>
+                            Dashboard
+                        </a>
+                        <a href="courses.html" 
+                           class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 flex items-center"
+                           data-page="courses">
+                            <i class="fas fa-book mr-2"></i>
+                            My Courses
+                        </a>
+                        <a href="attendance.html" 
+                           class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 flex items-center"
+                           data-page="attendance">
+                            <i class="fas fa-calendar-check mr-2"></i>
+                            Attendance
+                        </a>
+                        <a href="assessments.html" 
+                           class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 flex items-center"
+                           data-page="assessments">
+                            <i class="fas fa-clipboard-check mr-2"></i>
+                            Assessments
+                        </a>
+                        <a href="grades.html" 
+                           class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 flex items-center"
+                           data-page="grades">
+                            <i class="fas fa-chart-line mr-2"></i>
+                            Grades
+                        </a>
+                        <a href="predictions.html" 
+                           class="nav-link px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200 flex items-center"
+                           data-page="predictions">
+                            <i class="fas fa-crystal-ball mr-2"></i>
+                            Predictions
+                        </a>
+                    </div>
+                    
+                    <!-- User Dropdown Menu - This is where alerts will be added -->
+                    <div class="flex items-center space-x-4">
+                        <!-- Alert bell will be inserted here by alerts.js -->
+                        
+                        <!-- Desktop User Dropdown -->
+                        <div class="hidden md:block relative">
+                            <button id="userMenuBtn" 
+                                    class="flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-200">
+                                <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-user text-sm text-white"></i>
+                                </div>
+                                <span id="username" class="max-w-xs truncate">Loading...</span>
+                                <i class="fas fa-chevron-down text-xs ml-1"></i>
+                            </button>
+                            
+                            <!-- Dropdown Menu -->
+                            <div id="userDropdown" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl py-1 z-50 dropdown-enter">
+                                <!-- User Info Header -->
+                                <div class="px-4 py-3 border-b border-gray-200">
+                                    <p class="text-sm font-medium text-gray-900" id="dropdownUsername">Student Name</p>
+                                </div>
+                                
+                                <!-- Menu Items -->
+                                <a href="profile.html" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                    <i class="fas fa-user-circle mr-3 text-gray-400"></i>
+                                    My Profile
+                                </a>
+                                <hr class="my-1">
+                                
+                                <button id="logoutBtn" class="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors text-left">
+                                    <i class="fas fa-sign-out-alt mr-3"></i>
+                                    Logout
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Mobile menu button -->
+                        <button id="mobileMenuBtn" 
+                                class="md:hidden p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-white">
+                            <i class="fas fa-bars text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mobile Navigation Menu -->
+                <div id="mobileMenu" class="md:hidden hidden pb-4">
+                    <!-- Mobile User Info -->
+                    <div class="px-3 py-2 mb-3 border-b border-gray-700">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-white"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-white" id="mobileUsername">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mobile Navigation Links -->
+                    <div class="space-y-1">
+                        <a href="dashboard.html" 
+                           class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                           data-page="dashboard">
+                            <i class="fas fa-tachometer-alt mr-3"></i>Dashboard
+                        </a>
+                        <a href="courses.html" 
+                           class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                           data-page="courses">
+                            <i class="fas fa-book mr-3"></i>My Courses
+                        </a>
+                        <a href="attendance.html" 
+                           class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                           data-page="attendance">
+                            <i class="fas fa-calendar-check mr-3"></i>Attendance
+                        </a>
+                        <a href="assessments.html" 
+                           class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                           data-page="assessments">
+                            <i class="fas fa-clipboard-check mr-3"></i>Assessments
+                        </a>
+                        <a href="grades.html" 
+                           class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                           data-page="grades">
+                            <i class="fas fa-chart-line mr-3"></i>Grades
+                        </a>
+                        <a href="predictions.html" 
+                           class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+                           data-page="predictions">
+                            <i class="fas fa-crystal-ball mr-3"></i>Predictions
+                        </a>
+                        
+                        <!-- Mobile User Menu Items -->
+                        <div class="border-t border-gray-700 pt-4 mt-4 space-y-1">
+                            <a href="profile.html" 
+                               class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
+                                <i class="fas fa-user-circle mr-3"></i>My Profile
+                            </a>
+                            <button id="mobileLogoutBtn" 
+                                    class="w-full text-left mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-red-400 hover:bg-red-900 hover:text-white transition-colors">
+                                <i class="fas fa-sign-out-alt mr-3"></i>Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <div class="container mx-auto px-4 py-6">
+            <!-- Breadcrumb -->
+            <nav class="flex mb-6" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                    <li class="inline-flex items-center">
+                        <a href="dashboard.html" class="text-gray-700 hover:text-blue-600">Dashboard</a>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <a href="assessments.html" class="ml-1 text-gray-700 hover:text-blue-600 md:ml-2">Assessments</a>
+                        </div>
+                    </li>
+                    <li aria-current="page">
+                        <div class="flex items-center">
+                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="ml-1 text-gray-500 md:ml-2">Submit Assessment</span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+            
+            <!-- Loading State -->
+            <div id="loadingIndicator" class="flex justify-center items-center h-64">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            </div>
+            
+            <!-- Main Content -->
+            <div id="mainContent" class="hidden">
+                <!-- Assessment Info -->
+                <div class="bg-white rounded-lg shadow-md mb-6">
+                    <div class="p-6">
+                        <h1 class="text-2xl font-bold mb-2" id="assessmentTitle">Loading...</h1>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-600">Course:</span>
+                                <span class="font-medium" id="courseName"></span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Type:</span>
+                                <span class="font-medium" id="assessmentType"></span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Due Date:</span>
+                                <span class="font-medium" id="dueDate"></span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Max Score:</span>
+                                <span class="font-medium" id="maxScore"></span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Weight:</span>
+                                <span class="font-medium" id="weight"></span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Status:</span>
+                                <span class="font-medium" id="status"></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Description -->
+                        <div id="descriptionSection" class="mt-4 hidden">
+                            <h3 class="font-semibold mb-2">Instructions:</h3>
+                            <div class="bg-gray-50 p-4 rounded-md text-sm" id="description"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Submission Status (if already submitted) -->
+                <div id="submissionStatus" class="hidden bg-green-50 border border-green-200 p-4 rounded-md mb-6">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-green-800">Already Submitted</h3>
+                            <div class="mt-2 text-sm text-green-700">
+                                <p>Submitted on: <span id="submissionDate"></span></p>
+                                <p id="gradeInfo" class="hidden">Grade: <span id="grade"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Submission Form -->
+                <div id="submissionForm" class="bg-white rounded-lg shadow-md">
+                    <div class="border-b px-6 py-4">
+                        <h3 class="font-bold text-lg">Submit Your Work</h3>
+                    </div>
+                    <form id="assessmentSubmitForm" class="p-6">
+                        <!-- Text Submission -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Text Submission
+                            </label>
+                            <textarea id="submissionText" 
+                                      rows="10" 
+                                      class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                      placeholder="Enter your answer or submission text here..."></textarea>
+                        </div>
+                        
+                        <!-- File Upload (placeholder for future implementation) -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                File Upload (Optional)
+                            </label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-md p-6 text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                </svg>
+                                <p class="mt-2 text-sm text-gray-600">File upload coming soon</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="flex justify-end space-x-4">
+                            <button type="button" id="cancelBtn" 
+                                    class="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                                Cancel
+                            </button>
+                            <button type="submit" id="submitBtn" 
+                                    class="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                Submit Assessment
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Previous Submission (if exists) -->
+                <div id="previousSubmission" class="hidden bg-white rounded-lg shadow-md mt-6">
+                    <div class="border-b px-6 py-4">
+                        <h3 class="font-bold text-lg">Your Previous Submission</h3>
+                    </div>
+                    <div class="p-6">
+                        <div id="previousSubmissionContent"></div>
+                        
+                        <!-- Feedback from instructor -->
+                        <div id="feedbackSection" class="hidden mt-4">
+                            <h4 class="font-semibold mb-2">Instructor Feedback:</h4>
+                            <div class="bg-blue-50 p-4 rounded-md text-sm" id="feedback"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Modal -->
+    <div id="successModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
+                    <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Submitted Successfully!</h3>
+                <div class="mt-2 px-7 py-3">
+                    <p class="text-sm text-gray-500">Your assessment has been submitted successfully.</p>
+                </div>
+                <div class="items-center px-4 py-3">
+                    <button id="closeModalBtn" class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+                        Back to Assessments
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.2/dist/axios.min.js"></script>
+    
+    <!-- Custom JavaScript - IMPORTANT: Load these in order -->
+    <script src="../js/api/client.js"></script>
+    <script src="../js/api/auth.js"></script>
+    <script src="../js/utils/auth-guard.js"></script>
+    <script src="../js/api/student.js"></script>
+    
+    <!-- Alert component - CORRECTED PATH -->
+    <script src="../js/components/alerts.js"></script>
+    
+    <!-- Assessment Submit script -->
+    <script src="../js/student/assessment-submit.js"></script>
+    <script src="../js/utils/activity-tracker.js"></script>
+    
+    <!-- Navigation script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elements
+        const userMenuBtn = document.getElementById('userMenuBtn');
+        const userDropdown = document.getElementById('userDropdown');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
+        
+        // User dropdown toggle
+        userMenuBtn?.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userDropdown.classList.toggle('hidden');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!userMenuBtn?.contains(event.target) && !userDropdown?.contains(event.target)) {
+                userDropdown?.classList.add('hidden');
+            }
+        });
+        
+        // Mobile menu toggle
+        mobileMenuBtn?.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+            
+            const icon = mobileMenuBtn.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        });
+        
+        // Logout functionality
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                authApi.logout();
+                window.location.href = '../login.html';
+            }
+        }
+        
+        logoutBtn?.addEventListener('click', handleLogout);
+        mobileLogoutBtn?.addEventListener('click', handleLogout);
+        
+        // Update user information
+        function updateUserInfo() {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const username = user.username || 'Student';
+            const email = user.email || 'student@university.edu';
+            
+            // Desktop
+            const usernameElement = document.getElementById('username');
+            const dropdownUsername = document.getElementById('dropdownUsername');
+            const dropdownEmail = document.getElementById('dropdownEmail');
+            
+            if (usernameElement) usernameElement.textContent = username;
+            if (dropdownUsername) dropdownUsername.textContent = username;
+            if (dropdownEmail) dropdownEmail.textContent = email;
+            
+            // Mobile
+            const mobileUsername = document.getElementById('mobileUsername');
+            const mobileEmail = document.getElementById('mobileEmail');
+            
+            if (mobileUsername) mobileUsername.textContent = username;
+            if (mobileEmail) mobileEmail.textContent = email;
+        }
+        
+        // Highlight active page
+        function setActivePage() {
+            const currentPage = window.location.pathname.split('/').pop().replace('.html', '') || 'dashboard';
+            
+            document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            document.querySelectorAll(`[data-page="${currentPage}"]`).forEach(link => {
+                link.classList.add('active');
+            });
+        }
+        
+        // Initialize
+        updateUserInfo();
+        setActivePage();
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                if (!this.id?.includes('Logout')) {
+                    mobileMenu?.classList.add('hidden');
+                    const icon = mobileMenuBtn?.querySelector('i');
+                    icon?.classList.remove('fa-times');
+                    icon?.classList.add('fa-bars');
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>
